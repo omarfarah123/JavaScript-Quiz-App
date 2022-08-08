@@ -1,0 +1,35 @@
+* {
+    box-sizing: border-box;
+}
+body{
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+main{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    padding-top: 300px;
+}
+button {
+    display: column;
+    flex-direction: row;
+    background-color: red;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 0.19in;
+  }
+  #answerResult{
+    font-size: large;
+    color: red;
+  }

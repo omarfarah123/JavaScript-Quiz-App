@@ -3,227 +3,162 @@ var choices  = document.querySelector(".choices");
 var startButton = document.querySelector("#startButton");
 var answer = document.querySelector("#answer");
 var time = document.querySelector("#timer");
-
+var choiceButtons = document.querySelector(".choiceButtons")
+var gameOver = document.querySelector("#gameOver")
+var gameOverScore = document.querySelector("#gameOverScore")
+var submitButton  = document.querySelector("#submitButton");
+var initialsInput = document.querySelector("#initials")
+var viewScores = document.querySelector("#scoreLink")
+var highScores = document.querySelector("#highScores");
+let reloadButton = document.querySelector("#reload");
 let remainingSeconds = 100;
-var num = 0;
 
 
 
 var company = ["What company developoed JavaScript?", "1. Microsoft", "2. Google", "3. Intel", "4. NetScape"];
-var thisKeyword = ["What is the this keyword?", "1. A keyword for creating new datatypes", "2. Used for adding more data to array", "3. Used for CSS flexbox", "4. Used to refer to the object from where it was called"];
-var comment = ["What symbols are used for comments?", "1. / & /**/", "2. <!---->", "3. ()", "4. #"];
+var alertBox = ['How do you write "Hello World" in an alert box?', 'alertBox("Hello World")', ' msg("Hello World")', '3. alert("Hello World")', 'msgBox("Hello World")']
+var comment = ["What symbols are used for comments?", "1. <!---->", "2. / & /**/", "3. ()", "4. #"];
 var pop = ["What is the pop() method used for?", "1. Used for breaking strings apart", "2. Used to add two numbers", "3. Used to duplicate array", "4. Used to remove last element in array"];
 var erros = ["What type of errors are there in JavaScript?", "1. LoadTime", "2. Runtime", "3. Logical", "4. All of the above" ];
-var alertBox = ['How do you write "Hello World" in an alert box?', 'alertBox("Hello World")', ' msg("Hello World")', ' alert("Hello World")', 'msgBox("Hello World")']
 var writeArray = ["What is the correct way to write a JavaScript array?", 'var colors = 1 = ("red"), 2 = ("green"), 3 = ("blue")', 'var colors = ["red", "green", "blue"]', 'var colors = "red", "green", "blue"', 'var colors = (1:"red", 2:"green", 3:"blue")']
 
 
 
 
-var questions = [company, thisKeyword, comment, pop, erros]
+var questions = [company, alertBox, writeArray, pop, erros, "end"]
 var correctAnswers = ["4. NetScape", "4. Used to refer to the object from where it was called", "1. / & /**/", "4. Used to remove last element in array", "4. All of the above" ];
 const button1 = document.createElement("button");
 const button2 = document.createElement("button");
 const button3 = document.createElement("button");
 const button4 = document.createElement("button");
-const formBox = document.createElement("form");
-const textBox = document.createElement("input")
-const submitButton = document.createElement("input");
 
-textBox.name = "initial";
-textBox.type = "text"
+
+
 
 submitButton.type = "submit";
+button1.id = "button1";
+button2.id = "button2";
+button3.id = "button3";
+button4.id = "button4";
 
+button1.classList = "choiceButtons";
+button2.classList = "choiceButtons";
+button3.classList = "choiceButtons";
+button4.classList = "choiceButtons";
+//Toggles the high scores board
+function toggers(event) {
+    if (highScores.style.display === "none") {
+      highScores.style.display = "block";
+    } else {
+      highScores.style.display = "none";
+    }
+  }
 
-button1.className = "choiceButtons";
-button2.className = "choiceButtons";
-button3.className = "choiceButtons";
-button4.className = "choiceButtons";
-
-var choiceButtons = document.querySelector(".choiceButtons")
 
 startButton.onclick = function begin(){
-    if(remainingSeconds > 0 || num < 7){
+    if(remainingSeconds > 0 || num < 5){
         setInterval(timer, 1000);
     }
-    startButton.replaceWith(button1);
+    startButton.remove();
+    choices.appendChild(button1)
     choices.appendChild(button2);
     choices.appendChild(button3);
-    choices.appendChild(button4);
+    choices.appendChild(button4); 
     execute();
+
 }
 
-function execute(){
-    var num = 0;
+var num = 0;
+function execute(event){
+//Checks if the button clicked is equal to the correct answer
     answers(num)
-    button1.addEventListener("click", function () {
-        num++;
-        answers(num)
-        remainingSeconds -= 10;
-        answer.innerHTML = "WRONG";
-        answer.style.color = "red";
-        button1.addEventListener("click", function () {
-            num--;
+        if(event.target.innerHTML == "4. NetScape" || event.target.innerHTML == '3. alert("Hello World")' || event.target.innerHTML == 'var colors = ["red", "green", "blue"]' || event.target.innerHTML == "4. Used to remove last element in array" || event.target.innerHTML == "4. All of the above"){
+                num++;
+                answers(num)
+                console.log(num)
+                answer.innerHTML = "CORRECT!";
+                answer.style.color = "green";
+        } else {
             num++;
             answers(num)
+            console.log(num)
             remainingSeconds -= 10;
-            answer.innerHTML = "WRONG";
+            answer.innerHTML = "WRONG!";
             answer.style.color = "red";
-            button1.addEventListener("click", function () {
-                num--;
-                num++;
-                answers(num)
-                answer.innerHTML="CORRECT"
-                answer.style.color = "green"
-                button1.addEventListener("click", function () {
-                    num--;
-                    num++;
-                    answers(num)
-                    remainingSeconds -= 10;
-                    answer.innerHTML = "WRONG";
-                    answer.style.color = "red"
-                        button1.addEventListener("click", function () {
-                        num--;
-                        answer.innerHTML = "WRONG";
-                        answer.style.color = "red"
-                        enterInitial()
-                        })
-                })
-            })
-        })
-    })
-    button2.addEventListener("click", function () {
-        num++;
-        answers(num)
-        remainingSeconds -= 10;
-        answer.innerHTML = "WRONG";
-        answer.style.color = "red"
-        button2.addEventListener("click", function () {
-            num--;
-            num++;
-            answers(num)
-            remainingSeconds -= 10;
-            answer.innerHTML = "WRONG";
-            answer.style.color = "red"
-            button2.addEventListener("click", function () {
-                num--;
-                num++;
-                answers(num)
-                remainingSeconds -= 10;
-                answer.innerHTML = "WRONG";
-                answer.style.color = "red"
-                button2.addEventListener("click", function () {
-                    num--;
-                    num++;
-                    answers(num)
-                    remainingSeconds -= 10;
-                    answer.innerHTML = "WRONG";
-                    answer.style.color = "red"
-                        button2.addEventListener("click", function () {
-                            num--;
-                            answer.innerHTML = "WRONG";
-                            answer.style.color = "red"
-                            enterInitial()
-                        })
-                })
-            })
-        })
-    })
-    button3.addEventListener("click", function () {
-        num++;
-        answers(num)
-        remainingSeconds -= 10;
-        answer.innerHTML = "WRONG";
-        answer.style.color = "red"
-        button3.addEventListener("click", function () {
-            num--;
-            num++;
-            answers(num)
-            remainingSeconds -= 10;
-            answer.innerHTML = "WRONG";
-            answer.style.color = "red"
-            button3.addEventListener("click", function () {
-                num--;
-                num++;
-                answers(num)
-                remainingSeconds -= 10;
-                answer.innerHTML = "WRONG";
-                answer.style.color = "red"
-                button3.addEventListener("click", function () {
-                    num--;
-                    num++;
-                    answers(num)
-                    remainingSeconds -= 10;
-                    answer.innerHTML = "WRONG";
-                    answer.style.color = "red"
-                    button3.addEventListener("click", function () {
-                        num--;
-                        answer.innerHTML = "WRONG";
-                        answer.style.color = "red";
-                        enterInitial()
-                    })
-                })
-            })
-        })
-    })
-    button4.addEventListener("click", function () {
-        num++;
-        answers(num)
-        answer.innerHTML="CORRECT"
-        answer.style.color = "green"
-        button4.addEventListener("click", function () {
-            num--;
-            num++;
-            answers(num)
-            answer.innerHTML="CORRECT"
-            answer.innerHTML.style.color = "green"
-            button4.addEventListener("click", function () {
-                num--;
-                num++;
-                answers(num)
-                remainingSeconds -= 10;
-                answer.innerHTML = "WRong";
-                answer.style.color = "red";
-                button4.addEventListener("click", function () {
-                    num--;
-                    num++;
-                    answers(num)
-                    answer.innerHTML="CORRECT"
-                    answer.style.color = "green"
-                    button4.addEventListener("click", function () {
-                        num--;
-                        answer.innerHTML="CORRECT"
-                        answer.style.color = "green"
-                        enterInitial()
-                    })
-                })
-            })
-        })
-    })
+    }
+    //Calls teh enter itial function when quiz is over if num is 4 meaning when last question is answered
+    if(num > 4){
+        enterInitial();
+    }
 }
+ 
 
 function enterInitial(){
     let score = remainingSeconds;
-    statment.children.innerHTML = "GAME OVER enter initials below";
-    choices.children.replaceWith(textBox);
-    choices.appendChild(submitButton);
-}
-
+    console.log(score)
+    gameOver.style.display = "block";
+    scoreArray.push(score);
+    gameOverScore.innerHTML = `Game Over Your Score Is ${score} enter initials`;
+    statment.remove();
+    button1.remove();
+    button2.remove();
+    button3.remove();
+    button4.remove();
+    time.remove();
+    //Submit Button event listener to take Initials and add high score to the board
+     submitButton.addEventListener("click", function(event) {
+        submitButton.disabled = true;
+         event.preventDefault();
+         console.log("INSIDE SUBMIT LISTENER");
+         var scores = JSON.parse(localStorage.getItem("scores")) || [];
+         console.log(scores);
+        var submission = {
+             initialsInput: initialsInput.value,
+             score : score
+         }
+         scores.push(submission);
+         console.log(scores)
+         localStorage.setItem("scores", JSON.stringify(scores));
+         renderData();
+         function renderData(){
+            var lastSubmission = JSON.parse(localStorage.getItem("scores"));
+            console.log(lastSubmission)
+            if(lastSubmission != null){
+                for(let i = 0; i < lastSubmission.length; i++){
+                    let package = `${lastSubmission[i].initialsInput}-${lastSubmission[i].score}`
+                    let p = document.createElement("p")
+                    highScores.append(package, p)
+                    //p.slice(-5)
+                    console.log("STILL INSIDE")
+                    
+                }
+            }
+            }
+         })
+         
+         reloadButton.addEventListener("click", function(event) {
+            window.location.reload();
+         })
+    
+        }
+//Function to iterate through array of questions and assign the options to the buttons
 function answers(i){
         statment.innerHTML = questions[i][0];
         button1.innerHTML = questions[i][1];
         button2.innerHTML = questions[i][2];
         button3.innerHTML = questions[i][3];
-        button4.innerHTML = questions[i][4];       
+        button4.innerHTML = questions[i][4];        
 }
 
-
+//Timer function
 function timer(){
     if(remainingSeconds > 0){
     remainingSeconds--;
     time.innerHTML = "Time: " + remainingSeconds; 
     }
+    if(num > 4){
+        return;
+    }
 }
-begin()
+
 

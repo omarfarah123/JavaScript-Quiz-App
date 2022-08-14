@@ -45,7 +45,7 @@ button1.classList = "choiceButtons";
 button2.classList = "choiceButtons";
 button3.classList = "choiceButtons";
 button4.classList = "choiceButtons";
-//Toggles the high scores board
+
 function toggers(event) {
     if (highScores.style.display === "none") {
       highScores.style.display = "block";
@@ -56,7 +56,8 @@ function toggers(event) {
 
 
 startButton.onclick = function begin(){
-    if(remainingSeconds > 0 || num < 5){
+
+    if(remainingSeconds > 0){
         setInterval(timer, 1000);
     }
     startButton.remove();
@@ -70,31 +71,40 @@ startButton.onclick = function begin(){
 
 var num = 0;
 function execute(event){
-//Checks if the button clicked is equal to the correct answer
+    //First Question out of the array
     answers(num)
         if(event.target.innerHTML == "4. NetScape" || event.target.innerHTML == '3. alert("Hello World")' || event.target.innerHTML == 'var colors = ["red", "green", "blue"]' || event.target.innerHTML == "4. Used to remove last element in array" || event.target.innerHTML == "4. All of the above"){
+                
                 num++;
+                if(remainingSeconds === 0){
+                    num = 5
+                }
                 answers(num)
-                console.log(num)
                 answer.innerHTML = "CORRECT!";
                 answer.style.color = "green";
         } else {
+            
             num++;
+            if(remainingSeconds === 0){
+                num = 5
+            }
             answers(num)
-            console.log(num)
             remainingSeconds -= 10;
             answer.innerHTML = "WRONG!";
             answer.style.color = "red";
     }
-    //Calls teh enter itial function when quiz is over if num is 4 meaning when last question is answered
     if(num > 4){
         enterInitial();
     }
+    
 }
  
-
+var scoreArray = []
 function enterInitial(){
     let score = remainingSeconds;
+    if(score < 0){
+        score = 0;
+    }
     console.log(score)
     gameOver.style.display = "block";
     scoreArray.push(score);
@@ -105,7 +115,7 @@ function enterInitial(){
     button3.remove();
     button4.remove();
     time.remove();
-    //Submit Button event listener to take Initials and add high score to the board
+    
      submitButton.addEventListener("click", function(event) {
         submitButton.disabled = true;
          event.preventDefault();
@@ -128,8 +138,6 @@ function enterInitial(){
                     let package = `${lastSubmission[i].initialsInput}-${lastSubmission[i].score}`
                     let p = document.createElement("p")
                     highScores.append(package, p)
-                    //p.slice(-5)
-                    console.log("STILL INSIDE")
                     
                 }
             }
@@ -141,6 +149,9 @@ function enterInitial(){
          })
     
         }
+        for(let i = 0; i < scoreArray.length; i++){
+            console.log(scoreArray[i])
+        }
 //Function to iterate through array of questions and assign the options to the buttons
 function answers(i){
         statment.innerHTML = questions[i][0];
@@ -150,7 +161,7 @@ function answers(i){
         button4.innerHTML = questions[i][4];        
 }
 
-//Timer function
+
 function timer(){
     if(remainingSeconds > 0){
     remainingSeconds--;

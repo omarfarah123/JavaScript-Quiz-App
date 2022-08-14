@@ -7,3 +7,6 @@ When the quiz is finished, Users can enter their Initials and their high score w
 Here is the a short clip of the application being executed
 
 [Document.webm](https://user-images.githubusercontent.com/76454677/184548427-a473ae60-9a28-45c7-aa79-0422ce33f659.webm)
+
+Link to deployed Site
+https://omarfarah123.github.io/JavaScript-Quiz-App/#

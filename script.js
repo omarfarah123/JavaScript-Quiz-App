@@ -14,7 +14,7 @@ let reloadButton = document.querySelector("#reload");
 let remainingSeconds = 100;
 
 
-
+//Questions and answers
 var company = ["What company developoed JavaScript?", "1. Microsoft", "2. Google", "3. Intel", "4. NetScape"];
 var alertBox = ['How do you write "Hello World" in an alert box?', 'alertBox("Hello World")', ' msg("Hello World")', '3. alert("Hello World")', 'msgBox("Hello World")']
 var comment = ["What symbols are used for comments?", "1. <!---->", "2. / & /**/", "3. ()", "4. #"];
@@ -24,7 +24,7 @@ var writeArray = ["What is the correct way to write a JavaScript array?", 'var c
 
 
 
-
+//Questions used in quiz
 var questions = [company, alertBox, writeArray, pop, erros, "end"]
 var correctAnswers = ["4. NetScape", "4. Used to refer to the object from where it was called", "1. / & /**/", "4. Used to remove last element in array", "4. All of the above" ];
 const button1 = document.createElement("button");
@@ -45,7 +45,7 @@ button1.classList = "choiceButtons";
 button2.classList = "choiceButtons";
 button3.classList = "choiceButtons";
 button4.classList = "choiceButtons";
-
+//Toggler for the high score page
 function toggers(event) {
     if (highScores.style.display === "none") {
       highScores.style.display = "block";
@@ -70,6 +70,7 @@ startButton.onclick = function begin(){
 }
 
 var num = 0;
+//This function runs when quiz begins and goes through the array of questions
 function execute(event){
     //First Question out of the array
     answers(num)
@@ -100,6 +101,7 @@ function execute(event){
 }
  
 var scoreArray = []
+//This function changes over the the initia input form and enables the user to provide their initials
 function enterInitial(){
     let score = remainingSeconds;
     if(score < 0){
@@ -115,42 +117,42 @@ function enterInitial(){
     button3.remove();
     button4.remove();
     time.remove();
-    
-     submitButton.addEventListener("click", function(event) {
-        submitButton.disabled = true;
-         event.preventDefault();
-         console.log("INSIDE SUBMIT LISTENER");
-         var scores = JSON.parse(localStorage.getItem("scores")) || [];
-         console.log(scores);
-        var submission = {
-             initialsInput: initialsInput.value,
-             score : score
-         }
-         scores.push(submission);
-         console.log(scores)
-         localStorage.setItem("scores", JSON.stringify(scores));
-         renderData();
-         function renderData(){
-            var lastSubmission = JSON.parse(localStorage.getItem("scores"));
-            console.log(lastSubmission)
-            if(lastSubmission != null){
-                for(let i = 0; i < lastSubmission.length; i++){
-                    let package = `${lastSubmission[i].initialsInput}-${lastSubmission[i].score}`
-                    let p = document.createElement("p")
-                    highScores.append(package, p)
-                    
-                }
+    //This function listens for the submission and then posts the score on the schreboard
+     submitButton.addEventListener("click", function(event) { 
+        if(initialsInput.value == ""){
+            alert("Please enter initials")
+        } else {
+            submitButton.disabled = true;
+            event.preventDefault();
+            var scores = JSON.parse(localStorage.getItem("scores")) || [];
+            console.log(scores);
+           var submission = {
+                initialsInput: initialsInput.value,
+                score : score
             }
-            }
+            scores.push(submission);
+            console.log(scores)
+            localStorage.setItem("scores", JSON.stringify(scores));
+            renderData();
+            function renderData(){
+               var lastSubmission = JSON.parse(localStorage.getItem("scores"));
+               console.log(lastSubmission)
+               if(lastSubmission != null){
+                   for(let i = 0; i < lastSubmission.length; i++){
+                       let package = `${lastSubmission[i].initialsInput} - ${lastSubmission[i].score}`
+                       let p = document.createElement("p")
+                       highScores.append(package, p) 
+                   }
+               }
+              }
+
+        }
          })
          
          reloadButton.addEventListener("click", function(event) {
             window.location.reload();
          })
     
-        }
-        for(let i = 0; i < scoreArray.length; i++){
-            console.log(scoreArray[i])
         }
 //Function to iterate through array of questions and assign the options to the buttons
 function answers(i){
@@ -161,7 +163,7 @@ function answers(i){
         button4.innerHTML = questions[i][4];        
 }
 
-
+//Timer function used in game
 function timer(){
     if(remainingSeconds > 0){
     remainingSeconds--;

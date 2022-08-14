@@ -24,7 +24,7 @@
             <!--Form for entering the Initials for the high scores-->
             <form id="gameOver"style="display:none;">
                 <label for="fname" id="gameOverScore"></label>
-                <input type="text" id="initials" name="fname" maxlength="2"><br>
+                <input type="text" id="initials" name="initials" minLength="2" maxlength="2" onkeydown="return /[A-Z]/i.test(event.key)" style="text-transform:uppercase" required><br>
                 <input type="submit" value="Submit" id="submitButton">
                 <input type="button" id="reload" value="back">
               </form> 
